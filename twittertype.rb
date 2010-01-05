@@ -9,15 +9,15 @@ class TwitterType
 
     @persister = ProfilePersister.new
     @client = TwitterClient.new('andee_marks', 'aciijckx')
-    @client.friends.each { |friend| classify_friend(friend) }
+    @client.friends.each { |friend| classify(friend) }
   end
   
-  def classify_friend(friend)
-    tweets = @client.gather_tweets_for(friend)
+  def classify(user)
+    tweets = @client.gather_tweets_for(user)
     
     return if tweets.count <= 0
     
-    profile = TweeterProfile.new(friend, tweets)
+    profile = TweeterProfile.new(user, tweets)
     puts profile.to_s
     #@persister.persist(profile)
   end
