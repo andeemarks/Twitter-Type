@@ -15,8 +15,6 @@ class TwitterType
   def classify(user)
     tweets = @client.gather_tweets_for(user)
     
-    return if tweets.count <= 0
-    
     profile = TweeterProfile.new(user, tweets)
     puts profile.to_s
     #@persister.persist(profile)

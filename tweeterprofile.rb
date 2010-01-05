@@ -6,6 +6,8 @@ class TweeterProfile
     @link_count = 0
     @tweeter = tweeter
     
+    return if tweets.count <= 0
+    
     tweets.each do |tweet|
       analyse_tweet(tweet)
     end
