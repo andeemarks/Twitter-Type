@@ -8,16 +8,17 @@ class TwitterType
     #auth.authorize_from_access('access token', 'access secret')
 
     @persister = ProfilePersister.new
-    @client = TwitterClient.new('andee_marks', 'aciijckx')
-    @client.friends.each { |friend| classify(friend) }
+    classify('andee_marks')
   end
   
   def classify(user)
-    tweets = @client.gather_tweets_for(user)
+    tweets = TwitterClient.gather_friend_tweets_for(user)
     
-    profile = TweeterProfile.new(user, tweets)
-    puts profile.to_s
-    #@persister.persist(profile)
+    tweets.each do |friend, tweets| 
+      profile = TweeterProfile.new(friend, tweets)
+      puts profile.to_s
+      #@persister.persist(profile)
+    end
   end
 
 end

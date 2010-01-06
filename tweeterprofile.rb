@@ -22,7 +22,7 @@ class TweeterProfile
   end
   
   def to_s
-    s = @tweeter.name + ": "
+    s = @tweeter.to_s + ": "
     s = s + "#tweets " + @tweet_count.to_s + ", "
     s = s + "#replies " + @reply_count.to_s + ", "
     s = s + "#retweets " + @retweet_count.to_s + ", "
