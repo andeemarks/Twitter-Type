@@ -2,17 +2,16 @@ require 'rubygems'
 require 'twitter'
 
 class TwitterClient
-  def self.gather_friend_tweets_for(user)
+  def self.gather_friend_tweets_for(user, password)
     begin
-      friend_ids = Twitter.friend_ids(user)
-      puts friend_ids.to_s + "\n"
+      client = Twitter::HTTPAuth.new(user, password)
+      base = Twitter::Base.new(client)
+      friends = base.friends
 
       friend_tweets = Hash.new
-      friend_ids.each { |friend_id| 
-        puts "Finding user for " + friend_id.to_s + "\n"
-        friend = Twitter::user(friend_id)
+      #friends.each { |friend| 
+      friend = friends.first 
         friend_tweets[friend] = Twitter::Search.new.from(friend.screen_name) 
-      }
 
       return friend_tweets
 

@@ -1,4 +1,6 @@
 class TweeterProfile
+  attr_reader :tweeter, :tweet_count, :reply_count, :retweet_count, :link_count
+  
   def initialize(tweeter, tweets)
     @tweet_count = 0
     @reply_count = 0
@@ -22,7 +24,7 @@ class TweeterProfile
   end
   
   def to_s
-    s = @tweeter.to_s + ": "
+    s = @tweeter.screen_name + ": "
     s = s + "#tweets " + @tweet_count.to_s + ", "
     s = s + "#replies " + @reply_count.to_s + ", "
     s = s + "#retweets " + @retweet_count.to_s + ", "

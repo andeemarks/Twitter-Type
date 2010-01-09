@@ -7,17 +7,16 @@ class TwitterType
     #auth = Twitter::OAuth.new('yo0ta9akCx3LW4g3rKs6Q', 'TKbVV8r3hMkkrUz1rLst29PpeEcd00KSMpXJ0gQ')
     #auth.authorize_from_access('access token', 'access secret')
 
-    @persister = ProfilePersister.new
-    classify('andee_marks')
+    classify('andee_marks', 'aciijckx')
   end
   
-  def classify(user)
-    tweets = TwitterClient.gather_friend_tweets_for(user)
+  def classify(user, password)
+    tweets = TwitterClient.gather_friend_tweets_for(user, password)
     
     tweets.each do |friend, tweets| 
       profile = TweeterProfile.new(friend, tweets)
       puts profile.to_s
-      #@persister.persist(profile)
+      ProfilePersister.new.persist(profile)
     end
   end
 
