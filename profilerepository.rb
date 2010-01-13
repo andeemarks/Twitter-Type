@@ -1,7 +1,7 @@
 require 'SQLite3'
 include SQLite3
 
-class ProfilePersister
+class ProfileRepository
   PROFILE_INSERT_SQL =<<-SQL
   insert into profile 
     (tweeter_name, 
@@ -38,13 +38,19 @@ class ProfilePersister
   def select_last_profile(screen_name)
     #last_profile = TweeterProfile.new
     
-    @db.get_first_row(LAST_PROFILE_QUERY_SQL, screen_name) do |row|
-      last_profile = TweeterProfile.new(row.tweeter_name)
-      last_profile.tweet_count = row.number_of_tweets
-      last_profile.retweet_count = row.number_of_retweets
-      last_profile.reply_count = row.number_of_chats
-      last_profile.link_count = row.number_of_links
-      last_profile.last_tweet_id = row.last_tweet_id
+    @db.query(LAST_PROFILE_QUERY_SQL, screen_name) do |result|
+      if (result.eof?)
+        return TweeterProfile.new("no previous profile")
+      end
+
+      result.each do |row| 
+        last_profile = TweeterProfile.new(row.tweeter_name)
+        last_profile.tweet_count = row.number_of_tweets
+        last_profile.retweet_count = row.number_of_retweets
+        last_profile.reply_count = row.number_of_chats
+        last_profile.link_count = row.number_of_links
+        last_profile.last_tweet_id = row.last_tweet_id
+      end
     end
     
     return last_profile
@@ -63,7 +69,7 @@ class ProfilePersister
 
   def insert_profile
       @db.execute(PROFILE_INSERT_SQL, 
-        @profile.tweeter.screen_name, 
+        @profile.screen_name, 
         @profile.tweet_count, 
         @profile.retweet_count, 
         @profile.link_count, 

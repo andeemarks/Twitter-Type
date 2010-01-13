@@ -1,6 +1,7 @@
 require 'twitterclient'
 require 'tweeterprofile'
-require 'profilepersister'
+require 'profilerepository'
+require 'tweetanalyser'
 
 class TwitterType
   def initialize
@@ -15,9 +16,9 @@ class TwitterType
     
     tweets.each do |friend, tweets| 
       profile = TweeterProfile.new(friend.screen_name)
-      profile.analyse(tweets)
+      profile = TweetAnalyser.new(profile).analyse(tweets)
       puts profile.to_s
-      ProfilePersister.new.persist(profile)
+      ProfileRepository.new.persist(profile)
     end
   end
 
