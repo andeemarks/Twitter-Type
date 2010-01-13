@@ -1,20 +1,19 @@
 class TweeterProfile
   attr_reader :tweeter, :tweet_count, :reply_count, :retweet_count, :link_count, :last_tweet_id
   
-  def initialize(tweeter, tweets)
+  def initialize(screen_name)
     @tweet_count = 0
     @reply_count = 0
     @retweet_count = 0
     @link_count = 0
     @last_tweet_id = -1
-    @tweeter = tweeter
-    
-    return if tweets.count <= 0
-    
+    @screen_name = screen_name    
+  end
+  
+  def analyse(tweets)
     tweets.each do |tweet|
       analyse_tweet(tweet)
     end
-    
   end
   
   def analyse_tweet(tweet) 

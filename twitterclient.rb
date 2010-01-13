@@ -11,9 +11,9 @@ class TwitterClient
       friend_tweets = Hash.new
       #friends.each { |friend| 
       friend = friends.first 
-      last_profile_id = ProfilePersister.new.get_last_profile_id(friend.screen_name)
-      puts "Searching for tweets for " + friend.screen_name + " since id of " + last_profile_id + "\n"
-        friend_tweets[friend] = Twitter::Search.new.from(friend.screen_name).since(last_profile_id)
+      last_profile = ProfilePersister.new.get_last_profile(friend.screen_name)
+      puts "Searching for tweets for " + friend.screen_name + " since id of " + last_profile.last_tweet_id + "\n"
+        friend_tweets[friend] = Twitter::Search.new.from(friend.screen_name).since(last_profile.last_tweet_id)
 
       return friend_tweets
 

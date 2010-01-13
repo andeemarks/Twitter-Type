@@ -14,7 +14,8 @@ class TwitterType
     tweets = TwitterClient.gather_friend_tweets_for(user, password)
     
     tweets.each do |friend, tweets| 
-      profile = TweeterProfile.new(friend, tweets)
+      profile = TweeterProfile.new(friend.screen_name)
+      profile.analyse(tweets)
       puts profile.to_s
       ProfilePersister.new.persist(profile)
     end
