@@ -8,7 +8,11 @@ class TwitterType
     #auth = Twitter::OAuth.new('yo0ta9akCx3LW4g3rKs6Q', 'TKbVV8r3hMkkrUz1rLst29PpeEcd00KSMpXJ0gQ')
     #auth.authorize_from_access('access token', 'access secret')
 
-    classify('andee_marks', 'aciijckx')
+    begin
+      classify('andee_marks', 'aciijckx')
+    rescue Twitter::TwitterError => error
+      puts "Error: Rate limit exceeded: " + error + "\n"
+    end
   end
   
   def classify(user, password)

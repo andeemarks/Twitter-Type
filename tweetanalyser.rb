@@ -1,10 +1,18 @@
+require 'TweeterProfile'
+require 'Hashie'
+
 class TweetAnalyser
   
   def initialize(profile)
+    raise ArgumentError if profile.class != TweeterProfile
     @profile = profile
   end
   
   def analyse(tweets)
+    raise ArgumentError.new("No tweets to analyse") if tweets.nil?
+    raise ArgumentError.new("Tweets are not in array") if tweets.class != Array
+    raise ArgumentError.new("Array does not contain tweets") if tweets.count > 0 and tweets.first.class != Hashie::Mash
+
     tweets.each do |tweet|
       analyse_tweet(tweet)
     end

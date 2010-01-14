@@ -2,19 +2,16 @@ require 'SQLite3'
 include SQLite3
 
 class ProfileRepository
+  COLUMN_NAMES = "tweeter_name, number_of_tweets, number_of_retweets, number_of_links, number_of_chats, last_tweet_id"
+  
   PROFILE_INSERT_SQL =<<-SQL
   insert into profile 
-    (tweeter_name, 
-    number_of_tweets, 
-    number_of_retweets, 
-    number_of_links, 
-    number_of_chats,
-    last_tweet_id) 
+    (#{COLUMN_NAMES}) 
     values ( ?, ?, ?, ?, ?, ? );
     SQL
     
   LAST_PROFILE_QUERY_SQL =<<-SQL
-    select * 
+    select #{COLUMN_NAMES} 
     from profile 
     where last_tweet_id = 
     (select max(last_tweet_id) 
@@ -36,8 +33,6 @@ class ProfileRepository
   end
   
   def select_last_profile(screen_name)
-    #last_profile = TweeterProfile.new
-    
     @db.query(LAST_PROFILE_QUERY_SQL, screen_name) do |result|
       if (result.eof?)
         return TweeterProfile.new("no previous profile")

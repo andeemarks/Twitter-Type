@@ -17,8 +17,6 @@ class TwitterClient
 
       return friend_tweets
 
-    rescue Twitter::TwitterError => error
-      puts "Error: Rate limit exceeded: " + error + "\n"
     rescue Crack::ParseError => error
       puts "Error: Cannot parse Twitter response: " + error + "\n"
     end
