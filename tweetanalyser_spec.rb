@@ -117,4 +117,20 @@ describe TweetAnalyser do
     profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
     profile.link_count.should == 4
   end
+  
+  it "should update the profile last tweet id when it finds a newer one" do
+    (@empty_profile.last_tweet_id < @tweet_with_valid_fields.id).should be_true
+    
+    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
+    profile.last_tweet_id.should == @tweet_with_valid_fields.id
+  end
+  
+  it "should preserve original profile last tweet id when cannot find a newer one" do
+    @tweet_with_valid_fields.stub!(:id).and_return(-2)
+    
+    (@empty_profile.last_tweet_id < @tweet_with_valid_fields.id).should be_false
+    
+    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
+    profile.last_tweet_id.should == @empty_profile.last_tweet_id
+  end
 end
