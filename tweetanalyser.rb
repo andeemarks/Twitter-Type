@@ -12,7 +12,6 @@ class TweetAnalyser
   def analyse(tweets)
     raise ArgumentError.new("No tweets to analyse") if tweets.nil?
     raise ArgumentError.new("Tweets are not in array") if tweets.class != Array
-#    raise ArgumentError.new("Array does not contain tweets") if tweets.count > 0 and "Hashie::Mash".eql(tweets.first.inspect)
 
     tweets.each do |tweet|
       analyse_tweet(tweet)
@@ -30,6 +29,8 @@ class TweetAnalyser
       @profile.last_tweet_id = tweet.id if tweet.id > @profile.last_tweet_id
     rescue NoMethodError => root
       raise ArgumentError.new("Missing method responses in tweet structure:" + root.to_s)
+    rescue TypeError => root
+      raise ArgumentError.new("Invalid data type in tweet structure:" + root.to_s)
     end
   end
   
