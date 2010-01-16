@@ -1,5 +1,4 @@
-require 'TweeterProfile'
-require 'Hashie'
+require File.dirname(__FILE__) + "/tweeterprofile"
 
 class TweetAnalyser
   

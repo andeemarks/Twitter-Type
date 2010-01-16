@@ -1,4 +1,5 @@
-require 'tweetanalyser'
+require 'src/tweetanalyser'
+require 'src/tweeterprofile'
 
 describe TweetAnalyser do
   before(:each) do
