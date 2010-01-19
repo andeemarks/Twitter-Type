@@ -28,8 +28,6 @@ class TweetAnalyser
       @profile.last_tweet_id = tweet.id if tweet.id > @profile.last_tweet_id
     rescue NoMethodError => root
       raise ArgumentError.new("Missing method responses in tweet structure:" + root.to_s)
-    rescue TypeError => root
-      raise ArgumentError.new("Invalid data type in tweet structure:" + root.to_s)
     end
   end
   
