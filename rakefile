@@ -5,5 +5,5 @@ desc "Run all examples with RCov"
 Spec::Rake::SpecTask.new('rcov') do |t|
   t.spec_files = FileList['test/**/*.rb']
   t.rcov = true
-  t.rcov_opts = ['--exclude', 'test/*']
+  t.rcov_opts = ['--exclude', '/Library/Ruby/Gems/*,/Users/amarks/,gem/*']
 end
