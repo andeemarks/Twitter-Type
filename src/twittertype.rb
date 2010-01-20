@@ -5,25 +5,20 @@ require 'tweetanalyser'
 
 class TwitterType
   def initialize
-    #auth = Twitter::OAuth.new('yo0ta9akCx3LW4g3rKs6Q', 'TKbVV8r3hMkkrUz1rLst29PpeEcd00KSMpXJ0gQ')
-    #auth.authorize_from_access('access token', 'access secret')
-
     begin
-      classify('andee_marks', 'aciijckx')
+      classify('andee_marks')
     rescue Twitter::TwitterError => error
       puts "Error: Rate limit exceeded: " + error + "\n"
     end
   end
   
-  def classify(user, password)
-    tweets = TwitterClient.gather_friend_tweets_for(user, password)
-    
-    tweets.each do |friend, tweets| 
-      profile = TweeterProfile.new(friend.screen_name)
-      profile = TweetAnalyser.new(profile).analyse(tweets)
-      puts profile.to_s
-      ProfileRepository.new.persist(profile)
-    end
+  def classify(user)
+    tweets = TwitterClient.new.gather_tweets_for(user)
+    profile = TweeterProfile.new(user)
+    profile = TweetAnalyser.new(profile).analyse(tweets)
+    puts profile.to_s
+    ProfileRepository.new.persist(profile)
+
   end
 
 end

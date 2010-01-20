@@ -15,6 +15,18 @@ class TweeterProfile
     @screen_name = screen_name    
   end
 
+  def update_from(tweet)
+    begin
+      @tweet_count = @tweet_count + 1
+      @reply_count = @reply_count + 1 if tweet.to_user != nil
+      @retweet_count = @retweet_count + 1 if tweet.text.start_with?('RT')
+      @link_count = @link_count + 1 if tweet.text.index('http://') != nil
+      @last_tweet_id = tweet.id if tweet.id > @last_tweet_id
+    rescue NoMethodError => root
+      raise ArgumentError.new("Missing method responses in tweet structure:" + root.to_s)
+    end
+  end
+
   def to_s
     s = @screen_name + ": "
     s = s + "#tweets " + @tweet_count.to_s + ", "

@@ -22,7 +22,7 @@ describe TweetAnalyser do
     TweetAnalyser.new(TweeterProfile.new(nil))
   end
   
-  it "should fail analysis without an array of tweets" do
+  it "should fail analysis if it cannot enumerate tweets" do
     lambda {@basic_analyser.analyse()}.should raise_error(ArgumentError)
     lambda {@basic_analyser.analyse(nil)}.should raise_error(ArgumentError)
     lambda {@basic_analyser.analyse("tweets")}.should raise_error(ArgumentError)
@@ -48,90 +48,5 @@ describe TweetAnalyser do
     
     lambda {@basic_analyser.analyse(Array.new(1, tweet_with_non_string_text))}.should raise_error(ArgumentError)
   end
-  
-  it "should increase the profile tweet count for each tweet found" do    
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.tweet_count.should == 1
 
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.tweet_count.should == 2
-
-    profile = @basic_analyser.analyse(Array.new(2, @tweet_with_valid_fields))
-    profile.tweet_count.should == 4
-    
-    profile = @basic_analyser.analyse(Array.new())
-    profile.tweet_count.should == 4
-  end
-  
-  it "should increase the profile reply count for each tweet sent to a user" do
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.reply_count.should == 1
-
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.reply_count.should == 2
-
-    profile = @basic_analyser.analyse(Array.new(2, @tweet_with_valid_fields))
-    profile.reply_count.should == 4
-    
-    profile = @basic_analyser.analyse(Array.new())
-    profile.reply_count.should == 4 
-
-    @tweet_with_valid_fields.stub!(:to_user).and_return(nil)
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.reply_count.should == 4
-    
-    
-  end
-  
-  it "should increase the profile retweet count for each tweet forwarded from a user" do
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.retweet_count.should == 1
-
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.retweet_count.should == 2
-
-    profile = @basic_analyser.analyse(Array.new(2, @tweet_with_valid_fields))
-    profile.retweet_count.should == 4
-    
-    profile = @basic_analyser.analyse(Array.new())
-    profile.retweet_count.should == 4 
-
-    @tweet_with_valid_fields.stub!(:text).and_return("text")
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.retweet_count.should == 4
-  end
-  
-  it "should increase the profile link count for each tweet mentioning an URL" do
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.link_count.should == 1
-
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.link_count.should == 2
-
-    profile = @basic_analyser.analyse(Array.new(2, @tweet_with_valid_fields))
-    profile.link_count.should == 4
-    
-    profile = @basic_analyser.analyse(Array.new())
-    profile.link_count.should == 4 
-
-    @tweet_with_valid_fields.stub!(:text).and_return("text")
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.link_count.should == 4
-  end
-  
-  it "should update the profile last tweet id when it finds a newer one" do
-    (@empty_profile.last_tweet_id < @tweet_with_valid_fields.id).should be_true
-    
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.last_tweet_id.should == @tweet_with_valid_fields.id
-  end
-  
-  it "should preserve original profile last tweet id when cannot find a newer one" do
-    @tweet_with_valid_fields.stub!(:id).and_return(-2)
-    
-    (@empty_profile.last_tweet_id < @tweet_with_valid_fields.id).should be_false
-    
-    profile = @basic_analyser.analyse(Array.new(1, @tweet_with_valid_fields))
-    profile.last_tweet_id.should == @empty_profile.last_tweet_id
-  end
 end
