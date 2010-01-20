@@ -57,19 +57,15 @@ class ProfileRepository
     
     @db.execute("select count(*) from profile") rescue create_table
     
-    insert_profile
-    
-    @db.close
-  end
+    @db.execute(PROFILE_INSERT_SQL,
+      @profile.screen_name,
+      @profile.tweet_count,
+      @profile.retweet_count,
+      @profile.link_count,
+      @profile.reply_count,
+      @profile.last_tweet_id)
 
-  def insert_profile
-      @db.execute(PROFILE_INSERT_SQL, 
-        @profile.screen_name, 
-        @profile.tweet_count, 
-        @profile.retweet_count, 
-        @profile.link_count, 
-        @profile.reply_count,
-        @profile.last_tweet_id)
+    @db.close
   end
     
   def create_table
