@@ -3,8 +3,8 @@ require 'src/tweeterprofile'
 
 describe TweetAnalyser do
   before(:each) do
-    @empty_profile = TweeterProfile.new(nil)
-    @basic_analyser = TweetAnalyser.new(@empty_profile)
+    @empty_profile = TweeterProfile.new("user")
+    @basic_analyser = TweetAnalyser.new(@empty_profile.screen_name)
 
     @tweet_with_valid_fields = mock()
     @tweet_with_valid_fields.stub!(:to_user).and_return("user")
@@ -13,13 +13,12 @@ describe TweetAnalyser do
 
   end
   
-  it "should fail construction without a profile" do
+  it "should fail construction without a user" do
     lambda {TweetAnalyser.new}.should raise_error(ArgumentError)
     lambda {TweetAnalyser.new(nil)}.should raise_error(ArgumentError)
     lambda {TweetAnalyser.new(1)}.should raise_error(ArgumentError)
-    lambda {TweetAnalyser.new("abc")}.should raise_error(ArgumentError)
     
-    TweetAnalyser.new(TweeterProfile.new(nil))
+    TweetAnalyser.new("user")
   end
   
   it "should fail analysis if it cannot enumerate tweets" do
@@ -31,8 +30,8 @@ describe TweetAnalyser do
     @basic_analyser.analyse(Array.new())
   end
   
-  it "should return the original profile if no tweets are supplied" do
-    @basic_analyser.analyse(Array.new()).should eql(@empty_profile)
+  it "should return the empty profile if no tweets are supplied" do
+    @basic_analyser.analyse(Array.new()).should == @empty_profile
   end
   
   it "needs a valid set of fields in the tweet" do

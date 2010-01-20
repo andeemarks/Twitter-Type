@@ -38,14 +38,15 @@ class ProfileRepository
         return TweeterProfile.new("no previous profile")
       end
 
-      result.each do |row| 
-        last_profile = TweeterProfile.new(row.tweeter_name)
-        last_profile.tweet_count = row.number_of_tweets
-        last_profile.retweet_count = row.number_of_retweets
-        last_profile.reply_count = row.number_of_chats
-        last_profile.link_count = row.number_of_links
-        last_profile.last_tweet_id = row.last_tweet_id
-      end
+      row = result.first
+
+      row.number_of_tweets
+      last_profile = TweeterProfile.new(row.tweeter_name)
+      last_profile.tweet_count = row.number_of_tweets
+      last_profile.retweet_count = row.number_of_retweets
+      last_profile.reply_count = row.number_of_chats
+      last_profile.link_count = row.number_of_links
+      last_profile.last_tweet_id = row.last_tweet_id
     end
     
     return last_profile

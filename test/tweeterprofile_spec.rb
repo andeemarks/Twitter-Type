@@ -15,7 +15,7 @@ describe TweeterProfile do
   end
 
   it "should provide a valid string representation for a newly created @profile" do
-    TweeterProfile.new("andy").to_s.should eql("andy: #tweets 0, #replies 0, #retweets 0, #links 0, #last_id -1\n")
+    TweeterProfile.new("andy").to_s.should eql("andy: #tweets 0, #replies 0, #retweets 0, #links 0\n")
 
   end
 
@@ -24,9 +24,8 @@ describe TweeterProfile do
     @profile.reply_count = 2
     @profile.retweet_count = 3
     @profile.link_count = 4
-    @profile.last_tweet_id = 5
 
-    @profile.to_s.should eql("andy: #tweets 1, #replies 2, #retweets 3, #links 4, #last_id 5\n")
+    @profile.to_s.should eql("andy: #tweets 1, #replies 2, #retweets 3, #links 4\n")
 
   end
 
@@ -81,19 +80,20 @@ describe TweeterProfile do
     @profile.link_count.should == 2
   end
 
-  it "should update the last tweet id when it finds a newer one" do
-    (@empty_profile.last_tweet_id < @tweet_with_valid_fields.id).should be_true
+  it "should be equal to another profile with the same values" do
+    first = TweeterProfile.new("user")
+    first.link_count = 1
+    first.retweet_count = 2
+    first.reply_count = 3
+    first.tweet_count = 4
 
-    @profile.update_from(@tweet_with_valid_fields)
-    @profile.last_tweet_id.should == @tweet_with_valid_fields.id
-  end
+    second = TweeterProfile.new(first.screen_name)
+    second.link_count = first.link_count
+    second.retweet_count = first.retweet_count
+    second.reply_count = first.reply_count
+    second.tweet_count = first.tweet_count
 
-  it "should preserve original last tweet id when cannot find a newer one" do
-    @tweet_with_valid_fields.stub!(:id).and_return(-2)
-
-    (@empty_profile.last_tweet_id < @tweet_with_valid_fields.id).should be_false
-
-    @profile.update_from(@tweet_with_valid_fields)
-    @profile.last_tweet_id.should == @empty_profile.last_tweet_id
+    first.equal?(second).should == false
+    (first == second).should == true
   end
 end

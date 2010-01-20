@@ -1,6 +1,5 @@
 require 'twitterclient'
 require 'tweeterprofile'
-require 'profilerepository'
 require 'tweetanalyser'
 
 class TwitterType
@@ -14,10 +13,8 @@ class TwitterType
   
   def classify(user)
     tweets = TwitterClient.new.gather_tweets_for(user)
-    profile = TweeterProfile.new(user)
-    profile = TweetAnalyser.new(profile).analyse(tweets)
+    profile = TweetAnalyser.new(user).analyse(tweets)
     puts profile.to_s
-    ProfileRepository.new.persist(profile)
 
   end
 
