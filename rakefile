@@ -7,3 +7,9 @@ Spec::Rake::SpecTask.new('rcov') do |t|
   t.rcov = true
   t.rcov_opts = ['--include', 'src/**/*.rb', '--exclude', '/Library/Ruby/Gems/*,/Users/amarks/,gem/*']
 end
+
+desc "Run all examples with RSpec"
+Spec::Rake::SpecTask.new('spec') do |t|
+  t.spec_files = FileList['test/**/*.rb']
+  t.rcov = false
+end

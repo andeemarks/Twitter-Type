@@ -1,3 +1,4 @@
+require 'spec'
 require 'src/tweeterprofile'
 
 describe TweeterProfile do

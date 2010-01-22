@@ -1,8 +1,15 @@
-require 'twitterclient'
-require 'tweeterprofile'
-require 'tweetanalyser'
+require File.dirname(__FILE__) + "/twitterclient"
+require File.dirname(__FILE__) + "/tweeterprofile"
+require File.dirname(__FILE__) + "/profilefactory"
+require File.dirname(__FILE__) + "/typeinferrer"
+require "twitter"
 
 class TwitterType
+  RETWEETER = 1
+  LINKER = 2
+  CHATTER = 3
+  ORIGINATOR = 4
+
   def initialize
     begin
       classify('andee_marks')
@@ -13,7 +20,8 @@ class TwitterType
   
   def classify(user)
     tweets = TwitterClient.new.gather_tweets_for(user)
-    profile = TweetAnalyser.new(user).analyse(tweets)
+    profile = ProfileFactory.new(user).build(tweets)
+    profile = TypeInferrer.new().infer(profile)
     puts profile.to_s
 
   end
