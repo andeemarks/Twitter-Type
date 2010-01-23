@@ -9,7 +9,8 @@ class TwitterType
   LINKER = 2
   CHATTER = 3
   ORIGINATOR = 4
-
+  UNDETERMINED = 5
+  
   def initialize
     begin
       classify('andee_marks')
