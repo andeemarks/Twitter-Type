@@ -16,7 +16,12 @@ class TweeterProfile
   def update_from(tweet)
     begin
       @tweet_count = @tweet_count + 1
-      @reply_count = @reply_count + 1 if tweet.to_user != nil
+
+      if tweet.to_user != nil
+        @reply_count = @reply_count + 1
+        return
+      end
+
       @retweet_count = @retweet_count + 1 if tweet.text.start_with?('RT')
       @link_count = @link_count + 1 if tweet.text.index('http://') != nil
     rescue NoMethodError => root

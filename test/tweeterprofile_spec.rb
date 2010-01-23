@@ -6,10 +6,9 @@ describe TweeterProfile do
   before(:each) do
     @profile = TweeterProfile.new("andy")
 
-    @tweet_with_valid_fields = mock()
-    @tweet_with_valid_fields.stub!(:to_user).and_return("user")
-    @tweet_with_valid_fields.stub!(:text).and_return("RT textm http://www.cool.com")
-    @tweet_with_valid_fields.stub!(:id).and_return(12345678)
+    @mock_tweet = mock()
+    @mock_tweet.stub!(:to_user).and_return(nil)
+    @mock_tweet.stub!(:text).and_return("text")
 
     @empty_profile = TweeterProfile.new(nil)
     
@@ -35,49 +34,65 @@ describe TweeterProfile do
   end
 
   it "should increase the tweet count for each tweet found" do
-    @profile.update_from(@tweet_with_valid_fields)
+    @profile.update_from(@mock_tweet)
     @profile.tweet_count.should == 1
 
-    @profile.update_from(@tweet_with_valid_fields)
+    @profile.update_from(@mock_tweet)
     @profile.tweet_count.should == 2
 
   end
 
   it "should increase the reply count for each tweet sent to a user" do
-    @profile.update_from(@tweet_with_valid_fields)
+    @mock_tweet.stub!(:to_user).and_return("user")
+
+    @profile.update_from(@mock_tweet)
     @profile.reply_count.should == 1
 
-    @profile.update_from(@tweet_with_valid_fields)
+    @profile.update_from(@mock_tweet)
     @profile.reply_count.should == 2
 
-    @tweet_with_valid_fields.stub!(:to_user).and_return(nil)
-    @profile.update_from(@tweet_with_valid_fields)
+    @mock_tweet.stub!(:to_user).and_return(nil)
+    @profile.update_from(@mock_tweet)
     @profile.reply_count.should == 2
 
 
   end
 
+
+
+  it "should let a reply take precedence over a retweet" do
+    @mock_tweet.stub!(:to_user).and_return("user")
+
+    @profile.update_from(@mock_tweet)
+    @profile.reply_count.should == 1
+    @profile.retweet_count.should == 0
+  end
+
   it "should increase the retweet count for each tweet forwarded from a user" do
-    @profile.update_from(@tweet_with_valid_fields)
+    @mock_tweet.stub!(:text).and_return("RT user")
+
+    @profile.update_from(@mock_tweet)
     @profile.retweet_count.should == 1
 
-    @profile.update_from(@tweet_with_valid_fields)
+    @profile.update_from(@mock_tweet)
     @profile.retweet_count.should == 2
 
-    @tweet_with_valid_fields.stub!(:text).and_return("text")
-    @profile.update_from(@tweet_with_valid_fields)
+    @mock_tweet.stub!(:text).and_return("text")
+    @profile.update_from(@mock_tweet)
     @profile.retweet_count.should == 2
   end
 
   it "should increase the link count for each tweet mentioning an URL" do
-    @profile.update_from(@tweet_with_valid_fields)
+    @mock_tweet.stub!(:text).and_return("text http://www.twitter.com")
+
+    @profile.update_from(@mock_tweet)
     @profile.link_count.should == 1
 
-    @profile.update_from(@tweet_with_valid_fields)
+    @profile.update_from(@mock_tweet)
     @profile.link_count.should == 2
 
-    @tweet_with_valid_fields.stub!(:text).and_return("text")
-    @profile.update_from(@tweet_with_valid_fields)
+    @mock_tweet.stub!(:text).and_return("text")
+    @profile.update_from(@mock_tweet)
     @profile.link_count.should == 2
   end
 

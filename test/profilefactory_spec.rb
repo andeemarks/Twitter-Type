@@ -43,7 +43,7 @@ describe ProfileFactory do
   
   it "needs the tweet text to be a string" do
     tweet_with_non_string_text = mock()
-    tweet_with_non_string_text.stub!(:to_user).and_return("user")
+    tweet_with_non_string_text.stub!(:to_user).and_return(nil)
     tweet_with_non_string_text.stub!(:text).and_return(1)
     
     lambda {@factory.build(Array.new(1, tweet_with_non_string_text))}.should raise_error(ArgumentError)
