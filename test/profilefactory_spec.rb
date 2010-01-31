@@ -6,12 +6,15 @@ describe ProfileFactory do
   before(:each) do
     @empty_profile = TweeterProfile.new("user")
     @factory = ProfileFactory.new(@empty_profile.screen_name)
+  end
 
-    @mock_valid_tweet = mock()
-    @mock_valid_tweet.stub!(:to_user).and_return("user")
-    @mock_valid_tweet.stub!(:text).and_return("RT textm http://www.cool.com")
-    @mock_valid_tweet.stub!(:id).and_return(12345678)
+  def setup_valid_fields_in_tweet
+    mock_valid_tweet = mock()
+    mock_valid_tweet.stub!(:to_user).and_return("user")
+    mock_valid_tweet.stub!(:text).and_return("RT textm http://www.cool.com")
+    mock_valid_tweet.stub!(:id).and_return(12345678)
 
+    return mock_valid_tweet
   end
   
   it "should fail construction without a user" do
@@ -22,7 +25,7 @@ describe ProfileFactory do
     ProfileFactory.new("user")
   end
   
-  it "should fail analysis if it cannot enumerate tweets" do
+  it "should fail if it cannot enumerate tweets" do
     lambda {@factory.build()}.should raise_error(ArgumentError)
     lambda {@factory.build(nil)}.should raise_error(ArgumentError)
     lambda {@factory.build("tweets")}.should raise_error(ArgumentError)
@@ -31,14 +34,16 @@ describe ProfileFactory do
     @factory.build(Array.new())
   end
   
-  it "should return the empty profile if no tweets are supplied" do
+  it "should return an empty profile if no tweets are supplied" do
     @factory.build(Array.new()).should == @empty_profile
   end
   
-  it "needs a valid set of fields in the tweet" do
+  it "should take a tweet with a valid set of fields" do
     lambda {@factory.build(Array.new(1, "tweet"))}.should raise_error(ArgumentError)
 
-    @factory.build(Array.new(1, @mock_valid_tweet))
+    mock_valid_tweet = setup_valid_fields_in_tweet()
+
+    @factory.build(Array.new(1, mock_valid_tweet))
   end
   
   it "needs the tweet text to be a string" do

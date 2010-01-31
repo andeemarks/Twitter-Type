@@ -9,17 +9,14 @@ describe TweeterProfile do
     @mock_tweet = mock()
     @mock_tweet.stub!(:to_user).and_return(nil)
     @mock_tweet.stub!(:text).and_return("text")
-
-    @empty_profile = TweeterProfile.new(nil)
-    
   end
 
-  it "should provide a valid string representation for a newly created @profile" do
+  it "should provide a valid string representation for a newly created profile" do
     TweeterProfile.new("andy").to_s.should eql("andy: #tweets 0, #replies 0, #retweets 0, #links 0\n")
 
   end
 
-  it "should provide a valid string representation for an updated @profile" do
+  it "should provide a valid string representation for an updated profile" do
     @profile.tweet_count = 1
     @profile.reply_count = 2
     @profile.retweet_count = 3
@@ -54,11 +51,7 @@ describe TweeterProfile do
     @mock_tweet.stub!(:to_user).and_return(nil)
     @profile.update_from(@mock_tweet)
     @profile.reply_count.should == 2
-
-
   end
-
-
 
   it "should let a reply take precedence over a retweet" do
     @mock_tweet.stub!(:to_user).and_return("user")
