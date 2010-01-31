@@ -8,6 +8,17 @@ describe TypeInferrer do
     @cut = TypeInferrer.new
   end
 
+  it "should fail to infer a profile which has less tweets than possible given other attributes" do
+    setup_profile({:retweet_count => 1, :link_count => 0, :reply_count => 0, :tweet_count => 0})
+    lambda{@cut.infer(@mock_profile)}.should raise_error(ArgumentError)
+
+    setup_profile({:retweet_count => 0, :link_count => 1, :reply_count => 0, :tweet_count => 0})
+    lambda{@cut.infer(@mock_profile)}.should raise_error(ArgumentError)
+
+    setup_profile({:retweet_count => 0, :link_count => 0, :reply_count => 1, :tweet_count => 0})
+    lambda{@cut.infer(@mock_profile)}.should raise_error(ArgumentError)
+  end                                                                      
+  
   it "should infer a type of retweeter from a profile with predominantly retweets" do
     setup_profile({:retweet_count => 1, :link_count => 0, :reply_count => 0, :tweet_count => 1})
     @cut.infer(@mock_profile).should == TwitterType::RETWEETER
