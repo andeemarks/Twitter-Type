@@ -20,7 +20,6 @@ describe TwitterType do
     cut = TwitterType.new("andee_marks")
 
     mock_client = mock()
-    Tweet = Struct.new("Tweet", :text, :to_user)
     tweets = Array.new(1) {|i| Tweet.new("test", "to user")}
     mock_client.should_receive(:gather_tweets_for).with("andee_marks").and_return(tweets)
 

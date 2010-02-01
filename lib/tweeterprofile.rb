@@ -15,6 +15,8 @@ class TweeterProfile
 
   def update_from(tweet)
     begin
+      p tweet
+      
       @tweet_count = @tweet_count + 1
 
       if tweet.to_user != nil
