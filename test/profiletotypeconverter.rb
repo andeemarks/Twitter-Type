@@ -1,51 +1,51 @@
 require "spec"
-require "typeinferrer"
+require "profiletotypeconverter"
 
-describe TypeInferrer do
+describe TwitterType::ProfileToTypeConverter do
   before(:all) do
     @mock_profile = mock()
-    @cut = TypeInferrer.new
+    @cut = ProfileToTypeConverter.new
   end
 
   it "should fail to infer a profile which has less tweets than possible given other attributes" do
     setup_profile({:retweet_count => 1, :link_count => 0, :reply_count => 0, :tweet_count => 0})
-    lambda{@cut.infer(@mock_profile)}.should raise_error(ArgumentError)
+    lambda{@cut.convert(@mock_profile)}.should raise_error(ArgumentError)
 
     setup_profile({:retweet_count => 0, :link_count => 1, :reply_count => 0, :tweet_count => 0})
-    lambda{@cut.infer(@mock_profile)}.should raise_error(ArgumentError)
+    lambda{@cut.convert(@mock_profile)}.should raise_error(ArgumentError)
 
     setup_profile({:retweet_count => 0, :link_count => 0, :reply_count => 1, :tweet_count => 0})
-    lambda{@cut.infer(@mock_profile)}.should raise_error(ArgumentError)
+    lambda{@cut.convert(@mock_profile)}.should raise_error(ArgumentError)
   end                                                                      
   
   it "should infer a type of retweeter from a profile with predominantly retweets" do
     setup_profile({:retweet_count => 1, :link_count => 0, :reply_count => 0, :tweet_count => 1})
-    @cut.infer(@mock_profile).should == TwitterType::RETWEETER
+    @cut.convert(@mock_profile).should == TypeInferrer::RETWEETER
   end
 
   it "should infer a type of linker from a profile with predominantly links" do
     setup_profile({:retweet_count => 0, :link_count => 1, :reply_count => 0, :tweet_count => 1})
-    @cut.infer(@mock_profile).should == TwitterType::LINKER
+    @cut.convert(@mock_profile).should == TypeInferrer::LINKER
   end
 
   it "should infer a type of chatter from a profile with predominantly replies" do
     setup_profile({:retweet_count => 0, :link_count => 0, :reply_count => 1, :tweet_count => 1})
-    @cut.infer(@mock_profile).should == TwitterType::CHATTER
+    @cut.convert(@mock_profile).should == TypeInferrer::CHATTER
   end
 
   it "should infer a type of originator from a profile with predominantly original tweets" do
     setup_profile({:retweet_count => 1, :link_count => 1, :reply_count => 1, :tweet_count => 10})
-    @cut.infer(@mock_profile).should == TwitterType::ORIGINATOR
+    @cut.convert(@mock_profile).should == TypeInferrer::ORIGINATOR
   end
 
   it "should infer no clear type from a profile with no clear trends" do
     setup_profile({:retweet_count => 1, :link_count => 1, :reply_count => 1, :tweet_count => 3})
-    @cut.infer(@mock_profile).should == TwitterType::UNDETERMINED
+    @cut.convert(@mock_profile).should == TypeInferrer::UNDETERMINED
   end
 
   it "should infer no clear type from an empty profile" do
     setup_profile({:retweet_count => 0, :link_count => 0, :reply_count => 0, :tweet_count => 0})
-    @cut.infer(@mock_profile).should == TwitterType::UNDETERMINED
+    @cut.convert(@mock_profile).should == TypeInferrer::UNDETERMINED
   end
 
   def setup_profile(return_values)

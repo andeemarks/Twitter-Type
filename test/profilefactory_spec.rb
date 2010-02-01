@@ -2,10 +2,10 @@ require "spec"
 require "profilefactory"
 require 'tweeterprofile'
 
-describe ProfileFactory do
+describe TwitterType::ProfileFactory do
   before(:each) do
     @empty_profile = TweeterProfile.new("user")
-    @factory = ProfileFactory.new(@empty_profile.screen_name)
+    @factory = TwitterType::ProfileFactory.new(@empty_profile.screen_name)
   end
 
   def setup_valid_fields_in_tweet

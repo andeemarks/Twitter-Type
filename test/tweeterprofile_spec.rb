@@ -1,7 +1,7 @@
 require 'spec'
 require 'tweeterprofile'
 
-describe TweeterProfile, " already populated" do
+describe TwitterType::TweeterProfile, " already populated" do
 
   before(:each) do
     @profile = TweeterProfile.new("andy")
@@ -41,7 +41,7 @@ describe TweeterProfile, " already populated" do
 
 end
 
-describe TweeterProfile, " being updated" do
+describe TwitterType::TweeterProfile, " being updated" do
 
   before(:each) do
     @profile = TweeterProfile.new("andy")

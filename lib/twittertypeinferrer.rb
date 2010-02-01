@@ -1,8 +1,10 @@
 require "twitterclient"
 require "profilefactory"
-require "typeinferrer"
+require "profiletotypeconverter"
 
-class TwitterType
+module TwitterType
+
+class TypeInferrer
   attr_writer :client
   attr_reader :inferred_type
   
@@ -14,7 +16,7 @@ class TwitterType
   
   def initialize(user)
     @user = user
-    @client = TwitterClient::Client.new
+    @client = TwitterType::TwitterClient.new
     @inferred_type = UNDETERMINED
   end
 
@@ -22,8 +24,9 @@ class TwitterType
     begin
       tweets = @client.gather_tweets_for(@user)
       profile = ProfileFactory.new(@user).build(tweets)
-      @inferred_type = TypeInferrer.new.infer(profile)
-    rescue TwitterClient::Error => error
+      @inferred_type = TwitterType::ProfileToTypeConverter.new.convert(profile)
+      p @inferred_type
+    rescue TwitterType::TwitterError => error
       puts "Error: Rate limit exceeded: " + error + "\n"
     end
     #puts profile.to_s
@@ -31,4 +34,6 @@ class TwitterType
 
 end
 
-#TwitterType.new("andee_marks")
+end
+
+TwitterType::TypeInferrer.new("andee_marks").classify

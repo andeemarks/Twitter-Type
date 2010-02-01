@@ -1,5 +1,7 @@
 require 'tweeterprofile'
 
+module TwitterType
+
 class ProfileFactory
 
   def initialize(user)
@@ -18,4 +20,6 @@ class ProfileFactory
 
     return profile
   end
+end
+
 end

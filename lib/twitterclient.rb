@@ -1,15 +1,15 @@
 require 'rubygems'
 require 'twitter'
 
-module TwitterClient
+module TwitterType
 
-  class Client
+  class TwitterClient
     def gather_tweets_for(screen_name)
       Twitter::Search.new.from(screen_name)
     end
   end
 
-  class Error < RuntimeError
+  class TwitterError < RuntimeError
     attr :message
   
     def initialize(message)

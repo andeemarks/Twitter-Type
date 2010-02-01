@@ -1,3 +1,5 @@
+module TwitterType
+
 class TweeterProfile
   attr_accessor :screen_name, 
     :tweet_count, 
@@ -49,4 +51,6 @@ class TweeterProfile
 
     return result
   end
+end
+
 end
