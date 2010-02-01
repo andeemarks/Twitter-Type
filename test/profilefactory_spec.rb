@@ -1,6 +1,6 @@
 require "spec"
-require 'src/profilefactory'
-require 'src/tweeterprofile'
+require "profilefactory"
+require 'tweeterprofile'
 
 describe ProfileFactory do
   before(:each) do

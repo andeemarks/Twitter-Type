@@ -1,8 +1,6 @@
-require File.dirname(__FILE__) + "/twitterclient"
-require File.dirname(__FILE__) + "/tweeterprofile"
-require File.dirname(__FILE__) + "/profilefactory"
-require File.dirname(__FILE__) + "/typeinferrer"
-require "twitter"
+require "twitterclient"
+require "profilefactory"
+require "typeinferrer"
 
 class TwitterType
   RETWEETER = 1
@@ -11,9 +9,9 @@ class TwitterType
   ORIGINATOR = 4
   UNDETERMINED = 5
   
-  def initialize
+  def initialize(user)
     begin
-      classify('andee_marks')
+      classify(user)
     rescue Twitter::TwitterError => error
       puts "Error: Rate limit exceeded: " + error + "\n"
     end
@@ -22,11 +20,11 @@ class TwitterType
   def classify(user)
     tweets = TwitterClient.new.gather_tweets_for(user)
     profile = ProfileFactory.new(user).build(tweets)
-    profile = TypeInferrer.new().infer(profile)
-    puts profile.to_s
+    profile = TypeInferrer.new.infer(profile)
+    #puts profile.to_s
 
   end
 
 end
 
-TwitterType.new
+TwitterType.new("andee_marks")

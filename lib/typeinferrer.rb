@@ -1,5 +1,5 @@
-require "src/tweeterprofile"
-require "src/twittertype"
+require "tweeterprofile"
+require "twittertype"
 
 class TypeInferrer
 

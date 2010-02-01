@@ -1,6 +1,5 @@
 require "spec"
-require "src/typeinferrer"
-require "src/twittertype"
+require "typeinferrer"
 
 describe TypeInferrer do
   before(:all) do

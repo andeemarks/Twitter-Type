@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + "/TweeterProfile"
+require 'tweeterprofile'
 
 class ProfileFactory
 

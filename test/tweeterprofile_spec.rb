@@ -1,5 +1,5 @@
 require 'spec'
-require 'src/tweeterprofile'
+require 'tweeterprofile'
 
 describe TweeterProfile do
 
