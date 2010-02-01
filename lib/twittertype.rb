@@ -15,7 +15,7 @@ class TwitterType
   def initialize(user)
     @user = user
     @client = TwitterClient::Client.new
-    @inferred_type = nil
+    @inferred_type = UNDETERMINED
   end
 
   def classify

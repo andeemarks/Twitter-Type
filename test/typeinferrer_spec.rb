@@ -43,6 +43,11 @@ describe TypeInferrer do
     @cut.infer(@mock_profile).should == TwitterType::UNDETERMINED
   end
 
+  it "should infer no clear type from an empty profile" do
+    setup_profile({:retweet_count => 0, :link_count => 0, :reply_count => 0, :tweet_count => 0})
+    @cut.infer(@mock_profile).should == TwitterType::UNDETERMINED
+  end
+
   def setup_profile(return_values)
     @mock_profile.stub!(:retweet_count).and_return(return_values[:retweet_count])
     @mock_profile.stub!(:link_count).and_return(return_values[:link_count])

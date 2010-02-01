@@ -20,12 +20,14 @@ describe TwitterType do
     cut = TwitterType.new("andee_marks")
 
     mock_client = mock()
-    mock_client.should_receive(:gather_tweets_for).with("andee_marks").and_return(Array.new)
+    Tweet = Struct.new("Tweet", :text, :to_user)
+    tweets = Array.new(1) {|i| Tweet.new("test", "to user")}
+    mock_client.should_receive(:gather_tweets_for).with("andee_marks").and_return(tweets)
 
     cut.client = mock_client
 
-    cut.inferred_type.should == nil
+    cut.inferred_type.should == TwitterType::UNDETERMINED
     cut.classify
-    cut.inferred_type.should_not == nil
+    cut.inferred_type.should_not == TwitterType::UNDETERMINED
   end
 end
