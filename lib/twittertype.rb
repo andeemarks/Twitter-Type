@@ -3,6 +3,9 @@ require "profilefactory"
 require "typeinferrer"
 
 class TwitterType
+  attr_writer :client
+  attr_reader :inferred_type
+  
   RETWEETER = 1
   LINKER = 2
   CHATTER = 3
@@ -10,21 +13,22 @@ class TwitterType
   UNDETERMINED = 5
   
   def initialize(user)
+    @user = user
+    @client = TwitterClient::Client.new
+    @inferred_type = nil
+  end
+
+  def classify
     begin
-      classify(user)
-    rescue Twitter::TwitterError => error
+      tweets = @client.gather_tweets_for(@user)
+      profile = ProfileFactory.new(@user).build(tweets)
+      @inferred_type = TypeInferrer.new.infer(profile)
+    rescue TwitterClient::Error => error
       puts "Error: Rate limit exceeded: " + error + "\n"
     end
-  end
-  
-  def classify(user)
-    tweets = TwitterClient.new.gather_tweets_for(user)
-    profile = ProfileFactory.new(user).build(tweets)
-    profile = TypeInferrer.new.infer(profile)
     #puts profile.to_s
-
   end
 
 end
 
-TwitterType.new("andee_marks")
+#TwitterType.new("andee_marks")
