@@ -13,5 +13,6 @@ end
 desc "Run all examples with RSpec"
 Spec::Rake::SpecTask.new('spec') do |t|
   t.spec_files = FileList['test/**/*.rb']
+  t.spec_opts = ['--format', 'nested']
   t.rcov = false
 end

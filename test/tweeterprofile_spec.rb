@@ -1,7 +1,7 @@
 require 'spec'
 require 'tweeterprofile'
 
-describe TweeterProfile, "when already populated" do
+describe TweeterProfile, " already populated" do
 
   before(:each) do
     @profile = TweeterProfile.new("andy")
@@ -41,7 +41,7 @@ describe TweeterProfile, "when already populated" do
 
 end
 
-describe TweeterProfile, "when being built" do
+describe TweeterProfile, " being updated" do
 
   before(:each) do
     @profile = TweeterProfile.new("andy")
@@ -78,6 +78,7 @@ describe TweeterProfile, "when being built" do
   end
 
   it "should let a reply take precedence over a retweet" do
+    @profile.reply_count.should == 0
     @profile.update_from(Tweet.new("text", "to_user"))
     @profile.reply_count.should == 1
     @profile.retweet_count.should == 0
