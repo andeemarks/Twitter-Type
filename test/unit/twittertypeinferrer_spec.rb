@@ -11,10 +11,6 @@ describe TypeInferrer do
     @mock_client = mock()
   end
 
-  it "should pass a basic smoke test" do
-    #TypeInferrer.new("andee_marks").classify
-  end
-
   it "should fail clearly if the Twitter API usage limit is exceeded" do
     @mock_client.stub!(:gather_tweets_for).with("andee_marks").and_raise(TwitterClientError.new(nil)) 
     @cut.client = @mock_client

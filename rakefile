@@ -4,17 +4,25 @@ require 'spec/rake/spectask'
 #Rake.application.options.trace = true
 
 task :default => [:spec]
+unit_test_list = FileList['test/unit/*_spec.rb']
+all_test_list = FileList['test/unit/*_spec.rb', 'test/functional/*_spec.rb']
+
+if ENV["RUN_CODE_RUN"]
+  spec_file_list = unit_test_list
+else
+  spec_file_list = all_test_list
+end
 
 desc "Run all examples with RCov"
 Spec::Rake::SpecTask.new('rcov') do |t|
-  t.spec_files = FileList['test/**/*.rb']
+  t.spec_files = all_test_list
   t.rcov = true
   t.rcov_opts = ['--include', 'lib/**/*.rb', '--exclude', '/Library/Ruby/Gems/*,/Users/amarks/,gem/*']
 end
 
 desc "Run all examples with RSpec"
-Spec::Rake::SpecTask.new('spec') do |t|
-  t.spec_files = FileList['test/**/*.rb']
-  t.spec_opts = ['--format', 'nested']
+Spec::Rake::SpecTask.new do |t|
+  t.spec_files = spec_file_list
   t.rcov = false
+  t.spec_opts = ['--format', 'nested']
 end
