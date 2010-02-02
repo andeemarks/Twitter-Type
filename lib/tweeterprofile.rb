@@ -26,7 +26,7 @@ class TweeterProfile
         return
       end
 
-      @retweet_count = @retweet_count + 1 if tweet.text.start_with?('RT')
+      @retweet_count = @retweet_count + 1 if tweet.text.slice(0, 2) == 'RT'
       @link_count = @link_count + 1 if tweet.text.index('http://') != nil
     rescue NoMethodError => root
       raise ArgumentError.new("Missing method responses in tweet structure:" + root.to_s)
