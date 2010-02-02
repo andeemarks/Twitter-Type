@@ -24,5 +24,3 @@ module TwitterType
   end
 
 end
-
-TypeInferrer.new("andee_marks").classify
