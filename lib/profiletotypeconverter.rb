@@ -1,6 +1,8 @@
 require "tweeterprofile"
 require "types"
 
+include TwitterType
+
 module TwitterType
 
 class ProfileToTypeConverter
@@ -14,13 +16,13 @@ class ProfileToTypeConverter
     
     return Types::ORIGINATOR if profile.tweet_count > (profile.retweet_count + profile.link_count + profile.reply_count)
 
-    return TypeInferrer::UNDETERMINED if highest_count == profile.retweet_count and highest_count == profile.link_count
-    return TypeInferrer::UNDETERMINED if highest_count == profile.retweet_count and highest_count == profile.reply_count
-    return TypeInferrer::UNDETERMINED if highest_count == profile.link_count and highest_count == profile.reply_count
+    return Types::UNDETERMINED if highest_count == profile.retweet_count and highest_count == profile.link_count
+    return Types::UNDETERMINED if highest_count == profile.retweet_count and highest_count == profile.reply_count
+    return Types::UNDETERMINED if highest_count == profile.link_count and highest_count == profile.reply_count
 
-    return TypeInferrer::RETWEETER if highest_count == profile.retweet_count
-    return TypeInferrer::LINKER if highest_count == profile.link_count
-    return TypeInferrer::CHATTER if highest_count == profile.reply_count
+    return Types::RETWEETER if highest_count == profile.retweet_count
+    return Types::LINKER if highest_count == profile.link_count
+    return Types::CHATTER if highest_count == profile.reply_count
   end
 end
 
