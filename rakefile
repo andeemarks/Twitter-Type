@@ -1,6 +1,8 @@
 require 'rake'
 require 'spec/rake/spectask'
 
+Rake.application.options.trace = true
+
 task :default => [:spec]
 
 desc "Run all examples with RCov"
