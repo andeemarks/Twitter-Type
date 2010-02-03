@@ -5,18 +5,17 @@ module TwitterType
 
   class TypeInferrer
     attr_writer :client
-    attr_reader :inferred_type
+    attr_reader :profile
 
     def initialize(user)
       @user = user
       @client = TwitterClient.new
-      @inferred_type = Types::UNDETERMINED
     end
 
     def classify
       tweets = @client.gather_tweets_for(@user)
-      profile = ProfileFactory.new(@user).build(tweets)
-      @inferred_type = profile.infer_type
+      @profile = ProfileFactory.new(@user).build(tweets)
+      @profile.infer_type
       #p @inferred_type
     end
 

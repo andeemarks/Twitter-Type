@@ -15,9 +15,9 @@ describe TypeInferrer do
     @mock_client.stub!(:gather_tweets_for).with("andee_marks").and_raise(TwitterClientError.new(nil)) 
     @cut.client = @mock_client
 
-    @cut.inferred_type.should == Types::UNDETERMINED
+    @cut.profile.should == nil
     lambda {@cut.classify}.should raise_error(TwitterClientError)
-    @cut.inferred_type.should == Types::UNDETERMINED
+    @cut.profile.should == nil
   end
 
   it "should infer a type for a Twitter User" do
@@ -26,8 +26,8 @@ describe TypeInferrer do
 
     @cut.client = @mock_client
 
-    @cut.inferred_type.should == Types::UNDETERMINED
+    @cut.profile.should == nil
     @cut.classify
-    @cut.inferred_type.should_not == Types::UNDETERMINED
+    @cut.profile.inferred_type.should_not == :undetermined
   end
 end

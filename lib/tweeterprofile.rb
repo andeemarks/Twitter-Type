@@ -5,7 +5,8 @@ module TwitterType
                   :tweet_count,
                   :reply_count,
                   :retweet_count,
-                  :link_count
+                  :link_count,
+                  :inferred_type
 
     def initialize(screen_name)
       @tweet_count = 0
@@ -17,8 +18,6 @@ module TwitterType
 
     def update_from(tweet)
       begin
-        #p tweet
-
         @tweet_count = @tweet_count + 1
 
         if tweet.to_user != nil
@@ -44,6 +43,12 @@ module TwitterType
 
       raise ArgumentError if @tweet_count < highest_count
 
+      @inferred_type = set_type(highest_count)
+
+      return @inferred_type
+    end
+
+    def set_type(highest_count)
       return :originator if @tweet_count > (@retweet_count + @link_count + @reply_count)
 
       return :undetermined if equal_highest?(highest_count, @retweet_count, @link_count)
