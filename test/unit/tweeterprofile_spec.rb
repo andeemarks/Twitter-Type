@@ -130,32 +130,32 @@ describe TwitterType::TweeterProfile, " when inferring a type" do
 
   it "should infer a type of retweeter from a profile with predominantly retweets" do
     setup_profile({:retweet_count => 1, :link_count => 0, :reply_count => 0, :tweet_count => 1})
-    @cut.infer_type.should == Types::RETWEETER
+    @cut.infer_type.should == :retweeter
   end
 
   it "should infer a type of linker from a profile with predominantly links" do
     setup_profile({:retweet_count => 0, :link_count => 1, :reply_count => 0, :tweet_count => 1})
-    @cut.infer_type.should == Types::LINKER
+    @cut.infer_type.should == :linker
   end
 
   it "should infer a type of chatter from a profile with predominantly replies" do
     setup_profile({:retweet_count => 0, :link_count => 0, :reply_count => 1, :tweet_count => 1})
-    @cut.infer_type.should == Types::CHATTER
+    @cut.infer_type.should == :chatter
   end
 
   it "should infer a type of originator from a profile with predominantly original tweets" do
     setup_profile({:retweet_count => 1, :link_count => 1, :reply_count => 1, :tweet_count => 10})
-    @cut.infer_type.should == Types::ORIGINATOR
+    @cut.infer_type.should == :originator
   end
 
   it "should infer no clear type from a profile with no clear trends" do
     setup_profile({:retweet_count => 1, :link_count => 1, :reply_count => 1, :tweet_count => 3})
-    @cut.infer_type.should == Types::UNDETERMINED
+    @cut.infer_type.should == :undetermined
   end
 
   it "should infer no clear type from an empty profile" do
     setup_profile({:retweet_count => 0, :link_count => 0, :reply_count => 0, :tweet_count => 0})
-    @cut.infer_type.should == Types::UNDETERMINED
+    @cut.infer_type.should == :undetermined
   end
 
   def setup_profile(return_values)

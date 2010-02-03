@@ -1,5 +1,3 @@
-require 'types'
-
 module TwitterType
 
   class TweeterProfile
@@ -46,15 +44,15 @@ module TwitterType
 
       raise ArgumentError if @tweet_count < highest_count
 
-      return Types::ORIGINATOR if @tweet_count > (@retweet_count + @link_count + @reply_count)
+      return :originator if @tweet_count > (@retweet_count + @link_count + @reply_count)
 
-      return Types::UNDETERMINED if equal_highest?(highest_count, @retweet_count, @link_count)
-      return Types::UNDETERMINED if equal_highest?(highest_count, @retweet_count, @reply_count)
-      return Types::UNDETERMINED if equal_highest?(highest_count, @link_count, @reply_count)
+      return :undetermined if equal_highest?(highest_count, @retweet_count, @link_count)
+      return :undetermined if equal_highest?(highest_count, @retweet_count, @reply_count)
+      return :undetermined if equal_highest?(highest_count, @link_count, @reply_count)
 
-      return Types::RETWEETER if highest_count == @retweet_count
-      return Types::LINKER if highest_count == @link_count
-      return Types::CHATTER if highest_count == @reply_count
+      return :retweeter if highest_count == @retweet_count
+      return :linker if highest_count == @link_count
+      return :chatter if highest_count == @reply_count
     end
 
     def to_s
