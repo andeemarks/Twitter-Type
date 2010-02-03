@@ -33,7 +33,7 @@ module TwitterType
     end
 
     def equal_highest?(highest_count, first, second)
-      highest_count == attribute_1 and highest_count == attribute_2
+      highest_count == first and highest_count == second
     end
 
     def infer_type
