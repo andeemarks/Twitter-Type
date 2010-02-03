@@ -32,7 +32,7 @@ MetricFu::Configuration.run do |config|
                                  "--profile",
                                  "--rails",
                                  "--exclude /gems/,/Library/,spec"]}
-  config.graph_engine = :gchart
+  config.graph_engine = :bluff
 end
 
 task :default => [:spec]

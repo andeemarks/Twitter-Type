@@ -1,6 +1,5 @@
 require "twitterclient"
 require "profilefactory"
-require "profiletotypeconverter"
 
 module TwitterType
 
@@ -17,7 +16,7 @@ module TwitterType
     def classify
       tweets = @client.gather_tweets_for(@user)
       profile = ProfileFactory.new(@user).build(tweets)
-      @inferred_type = ProfileToTypeConverter.new.convert(profile)
+      @inferred_type = profile.infer_type
       #p @inferred_type
     end
 
