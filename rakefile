@@ -1,4 +1,5 @@
 require 'rake'
+require 'rake/clean'
 require 'spec/rake/spectask'
 require 'metric_fu'
 
@@ -7,6 +8,8 @@ require 'metric_fu'
 task :default => [:spec]
 unit_test_list = FileList['test/unit/*_spec.rb']
 all_test_list = FileList['test/unit/*_spec.rb', 'test/functional/*_spec.rb']
+
+CLOBBER.include("tmp")
 
 if ENV["RUN_CODE_RUN"]
   spec_file_list = unit_test_list

@@ -32,7 +32,7 @@ module TwitterType
       end
     end
 
-    def equal_highest?(highest_count, attribute_1, attribute_2)
+    def equal_highest?(highest_count, first, second)
       highest_count == attribute_1 and highest_count == attribute_2
     end
 
@@ -61,12 +61,7 @@ module TwitterType
     end
 
     def to_s
-      s = @screen_name + ": "
-      s = s + "#tweets " + @tweet_count.to_s + ", "
-      s = s + "#replies " + @reply_count.to_s + ", "
-      s = s + "#retweets " + @retweet_count.to_s + ", "
-      s = s + "#links " + @link_count.to_s
-      s = s + "\n"
+      @screen_name + ": #tweets " + @tweet_count.to_s + ", #replies " + @reply_count.to_s + ", #retweets " + @retweet_count.to_s + ", #links " + @link_count.to_s + "\n"
     end
 
     def ==(other)
