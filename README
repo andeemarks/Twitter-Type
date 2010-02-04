@@ -1,5 +1,3 @@
-# :title: Documentation for TwitterType
-#
 # = Overview
 # TwitterType is a basic utility application that will analyse the tweets generated for a specified Twitter user and
 # determine what type of tweeting the user predominantly does.  The types of usage that can be identified are:

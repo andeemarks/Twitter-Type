@@ -32,8 +32,18 @@ module TwitterType
       end
     end
 
-    def equal_highest?(highest_count, first, second)
-      highest_count == first and highest_count == second
+    def to_s
+      @screen_name + ": #tweets " + @tweet_count.to_s + ", #replies " + @reply_count.to_s + ", #retweets " + @retweet_count.to_s + ", #links " + @link_count.to_s + "\n"
+    end
+
+    def ==(other)
+      result = @screen_name == other.screen_name
+      result = result && @tweet_count == other.tweet_count
+      result = result && @reply_count == other.reply_count
+      result = result && @retweet_count == other.retweet_count
+      result = result && @link_count == other.link_count
+
+      return result
     end
 
     def infer_type
@@ -48,6 +58,7 @@ module TwitterType
       return @inferred_type
     end
 
+    private
     def set_type(highest_count)
       return :originator if @tweet_count > (@retweet_count + @link_count + @reply_count)
 
@@ -60,18 +71,8 @@ module TwitterType
       return :chatter if highest_count == @reply_count
     end
 
-    def to_s
-      @screen_name + ": #tweets " + @tweet_count.to_s + ", #replies " + @reply_count.to_s + ", #retweets " + @retweet_count.to_s + ", #links " + @link_count.to_s + "\n"
-    end
-
-    def ==(other)
-      result = @screen_name == other.screen_name
-      result = result && @tweet_count == other.tweet_count
-      result = result && @reply_count == other.reply_count
-      result = result && @retweet_count == other.retweet_count
-      result = result && @link_count == other.link_count
-
-      return result
+    def equal_highest?(highest_count, first, second)
+      highest_count == first and highest_count == second
     end
 
   end
