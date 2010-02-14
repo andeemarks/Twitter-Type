@@ -15,7 +15,8 @@ module TwitterType
       tweets = @client.gather_tweets_for(user)
       @profile = ProfileFactory.new(user).build(tweets)
       @profile.infer_type
-      #p @inferred_type
+
+      self
     end
 
   end

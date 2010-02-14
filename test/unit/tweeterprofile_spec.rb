@@ -138,8 +138,13 @@ describe TwitterType::TweeterProfile, " inferring a type" do
     @cut.to_s.should eql("user: type :retweeter, #tweets 1, #replies 0, #retweets 1, #links 0\n")
   end
 
-  it "should infer linker from a profile with predominantly links" do
+  it "should infer linker from a profile with only links" do
     setup_profile({:retweet_count => 0, :link_count => 1, :reply_count => 0, :tweet_count => 1})
+    @cut.infer_type.should == :linker
+  end
+
+  it "should infer linker from a profile with predominantly links" do
+    setup_profile({:retweet_count => 0, :link_count => 15, :reply_count => 0, :tweet_count => 20})
     @cut.infer_type.should == :linker
   end
 
