@@ -1,7 +1,7 @@
 require 'spec'
 require 'tweeterprofile'
 
-describe TwitterType::TweeterProfile, " already populated" do
+describe TwitterType::TweeterProfile, " before update" do
 
   before(:each) do
     @profile = TweeterProfile.new("andy")
@@ -9,13 +9,6 @@ describe TwitterType::TweeterProfile, " already populated" do
 
   it "should provide a valid string representation for a newly created profile" do
     TweeterProfile.new("andy").to_s.should eql("andy: #tweets 0, #replies 0, #retweets 0, #links 0\n")
-  end
-
-  it "should included the inferred type if one is present" do
-    profile = TweeterProfile.new("andy")
-    original_to_s = profile.to_s
-    profile.inferred_type = :originator
-    profile.to_s.should eql("andy: type :originator, #tweets 0, #replies 0, #retweets 0, #links 0\n")
   end
 
   it "should be equal to another profile with the same values" do
@@ -137,6 +130,12 @@ describe TwitterType::TweeterProfile, " inferring a type" do
   it "should infer retweeter from a profile with predominantly retweets" do
     setup_profile({:retweet_count => 1, :link_count => 0, :reply_count => 0, :tweet_count => 1})
     @cut.infer_type.should == :retweeter
+  end
+
+  it "should included the inferred type in the string representation" do
+    setup_profile({:retweet_count => 1, :link_count => 0, :reply_count => 0, :tweet_count => 1})
+    @cut.infer_type
+    @cut.to_s.should eql("user: type :retweeter, #tweets 1, #replies 0, #retweets 1, #links 0\n")
   end
 
   it "should infer linker from a profile with predominantly links" do
