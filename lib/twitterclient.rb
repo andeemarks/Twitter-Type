@@ -8,7 +8,7 @@ module TwitterType
       raise ArgumentError if screen_name.nil? or screen_name.strip.size == 0
       
       begin
-        Twitter::Search.new.from(screen_name)
+        Twitter::Client.new.timeline_for(:user, :id => screen_name)
       rescue Twitter::TwitterError => error
         raise TwitterClientError.new(error.to_s)
       end

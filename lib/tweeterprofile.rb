@@ -33,7 +33,7 @@ module TwitterType
     end
 
     def to_s
-      @screen_name + ": #tweets " + @tweet_count.to_s + ", #replies " + @reply_count.to_s + ", #retweets " + @retweet_count.to_s + ", #links " + @link_count.to_s + "\n"
+      @screen_name + ": " + (@inferred_type ? "type " + @inferred_type.inspect + ", " : "") + "#tweets " + @tweet_count.to_s + ", #replies " + @reply_count.to_s + ", #retweets " + @retweet_count.to_s + ", #links " + @link_count.to_s + "\n"
     end
 
     def ==(other)

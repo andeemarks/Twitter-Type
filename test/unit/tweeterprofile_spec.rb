@@ -9,7 +9,13 @@ describe TwitterType::TweeterProfile, " already populated" do
 
   it "should provide a valid string representation for a newly created profile" do
     TweeterProfile.new("andy").to_s.should eql("andy: #tweets 0, #replies 0, #retweets 0, #links 0\n")
+  end
 
+  it "should included the inferred type if one is present" do
+    profile = TweeterProfile.new("andy")
+    original_to_s = profile.to_s
+    profile.inferred_type = :originator
+    profile.to_s.should eql("andy: type :originator, #tweets 0, #replies 0, #retweets 0, #links 0\n")
   end
 
   it "should be equal to another profile with the same values" do
