@@ -4,7 +4,7 @@ require 'twitter'
 module TwitterType
 
   class TwitterClient
-    def gather_tweets_for(screen_name)
+    def gather_recent_tweets_for (screen_name)
       raise ArgumentError if screen_name.nil? or screen_name.strip.size == 0
       
       begin
