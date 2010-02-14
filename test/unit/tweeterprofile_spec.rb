@@ -55,10 +55,10 @@ describe TwitterType::TweeterProfile, " being updated" do
   it "should increase the tweet count for each tweet found" do
     @profile.tweet_count.should == 0
 
-    @profile.update_from(Tweet.new("text", nil))
+    @profile.update_from(Tweet.new("text"))
     @profile.tweet_count.should == 1
 
-    @profile.update_from(Tweet.new("text", nil))
+    @profile.update_from(Tweet.new("text"))
     @profile.tweet_count.should == 2
 
   end
@@ -66,19 +66,19 @@ describe TwitterType::TweeterProfile, " being updated" do
   it "should increase the reply count for each tweet sent to a user" do
     @profile.reply_count.should == 0
 
-    @profile.update_from(Tweet.new("text", "to_user"))
+    @profile.update_from(Tweet.new("@user text"))
     @profile.reply_count.should == 1
 
-    @profile.update_from(Tweet.new("text", "to_user"))
+    @profile.update_from(Tweet.new("@user text"))
     @profile.reply_count.should == 2
 
-    @profile.update_from(Tweet.new("text", nil))
+    @profile.update_from(Tweet.new("text"))
     @profile.reply_count.should == 2
   end
 
   it "should let a reply take precedence over a retweet" do
     @profile.reply_count.should == 0
-    @profile.update_from(Tweet.new("text", "to_user"))
+    @profile.update_from(Tweet.new("@user text"))
     @profile.reply_count.should == 1
     @profile.retweet_count.should == 0
   end
@@ -86,13 +86,13 @@ describe TwitterType::TweeterProfile, " being updated" do
   it "should increase the retweet count for each tweet forwarded from a user" do
     @profile.retweet_count.should == 0
 
-    @profile.update_from(Tweet.new("RT text", nil))
+    @profile.update_from(Tweet.new("RT text"))
     @profile.retweet_count.should == 1
 
-    @profile.update_from(Tweet.new("RT text", nil))
+    @profile.update_from(Tweet.new("RT text"))
     @profile.retweet_count.should == 2
 
-    @profile.update_from(Tweet.new("text", nil))
+    @profile.update_from(Tweet.new("text"))
     @profile.retweet_count.should == 2
   end
 
@@ -105,7 +105,7 @@ describe TwitterType::TweeterProfile, " being updated" do
     @profile.update_from(Tweet.new("text http://www.twitter.com", nil))
     @profile.link_count.should == 2
 
-    @profile.update_from(Tweet.new("text", nil))
+    @profile.update_from(Tweet.new("text"))
     @profile.link_count.should == 2
   end
 

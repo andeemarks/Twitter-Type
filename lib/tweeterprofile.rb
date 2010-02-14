@@ -20,7 +20,7 @@ module TwitterType
       begin
         @tweet_count = @tweet_count + 1
 
-        if tweet.to_user != nil
+        if tweet.text.slice(0, 1) == '@'
           @reply_count = @reply_count + 1
           return
         end
@@ -33,7 +33,8 @@ module TwitterType
     end
 
     def to_s
-      @screen_name + ": " + (@inferred_type ? "type " + @inferred_type.inspect + ", " : "") + "#tweets " + @tweet_count.to_s + ", #replies " + @reply_count.to_s + ", #retweets " + @retweet_count.to_s + ", #links " + @link_count.to_s + "\n"
+      type_to_s = (@inferred_type ? "type " + @inferred_type.inspect + ", " : "")
+      @screen_name + ": " + type_to_s + "#tweets " + @tweet_count.to_s + ", #replies " + @reply_count.to_s + ", #retweets " + @retweet_count.to_s + ", #links " + @link_count.to_s + "\n"
     end
 
     def ==(other)
