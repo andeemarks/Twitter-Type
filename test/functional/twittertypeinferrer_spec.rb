@@ -7,6 +7,6 @@ include TwitterType
 describe TypeInferrer do
 
   it "should pass a basic smoke test" do
-    TypeInferrer.new("andee_marks").classify
+    TypeInferrer.new.infer("andee_marks")
   end
 end

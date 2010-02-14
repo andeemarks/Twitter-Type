@@ -9,7 +9,7 @@ describe TypeInferrer do
   VALID_TWITTER_USER = "andee_marks"
 
   before(:each) do
-    @cut = TypeInferrer.new(VALID_TWITTER_USER)
+    @cut = TypeInferrer.new
     @mock_client = mock()
   end
 
@@ -18,7 +18,7 @@ describe TypeInferrer do
     @cut.client = @mock_client
 
     @cut.profile.should == nil
-    lambda {@cut.classify}.should raise_error(TwitterClientError)
+    lambda {@cut.infer(VALID_TWITTER_USER)}.should raise_error(TwitterClientError)
     @cut.profile.should == nil
   end
 
@@ -29,7 +29,7 @@ describe TypeInferrer do
     @cut.client = @mock_client
 
     @cut.profile.should == nil
-    @cut.classify
+    @cut.infer(VALID_TWITTER_USER)
     @cut.profile.inferred_type.should_not == :undetermined
   end
 end
