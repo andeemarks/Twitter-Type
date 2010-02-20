@@ -1,20 +1,20 @@
-# = Overview
-# TwitterType is a basic utility application that will analyse the tweets generated for a specified Twitter user and
-# determine what type of tweeting the user predominantly does.  The types of usage that can be identified are:
-#
-# [:+chatter+] most tweets are in response to tweets by other Twitter users
-# [:+linker+] most tweets include links to URLs
-# [:+retweeter+] most tweets are forwarding on other people's tweets
-# [:+originator+] most tweets are original content, not containing links, retweets or responses
-# [:+undetermined+] no strong trends to base type on.
-#
-# = Usage
-#
-# inferrer = TwitterType::TypeInferrer.new(<user-name>)
-# inferrer.classify
-# print inferrer.profile
-#
-# = Known Problems
-#
-# = Copyright
-# Copyright (c) 2010 Andy Marks, released under the MIT license
+= Overview
+TwitterType is a basic utility application that will analyse the tweets generated for a specified Twitter user and
+determine what type of tweeting the user predominantly does.  The types of usage that can be identified are:
+
+[:+chatter+] most tweets are in response to tweets by other Twitter users
+[:+linker+] most tweets include links to URLs
+[:+retweeter+] most tweets are forwarding on other people's tweets
+[:+originator+] most tweets are original content, not containing links, retweets or responses
+[:+undetermined+] no strong trends to base type on.
+
+= Usage
+
+inferrer = TwitterType::TypeInferrer.new(<user-name>)
+inferrer.classify
+print inferrer.profile
+
+= Known Problems
+
+= Copyright
+Copyright (c) 2010 Andy Marks, released under the MIT license

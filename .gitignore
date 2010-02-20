@@ -1,2 +1,7 @@
-/coverage
-/.idea/**/*
+coverage
+tmp
+nbproject
+doc
+pkg
+.idea
+
