@@ -14,7 +14,7 @@ describe TypeInferrer do
   end
 
   it "should fail gracefully if the Twitter client fails in some way" do
-    @mock_client.stub!(:gather_tweets_for).with(VALID_TWITTER_USER).and_raise(TwitterClientError.new(nil))
+    @mock_client.stub!(:gather_recent_tweets_for).with(VALID_TWITTER_USER).and_raise(TwitterClientError.new(nil))
     @cut.client = @mock_client
 
     @cut.profile.should == nil
@@ -24,7 +24,7 @@ describe TypeInferrer do
 
   it "should infer a type for a Twitter User" do
     tweets = Array.new(1) {|i| Tweet.new("test", "to user")}
-    @mock_client.stub!(:gather_tweets_for).with(VALID_TWITTER_USER).and_return(tweets)
+    @mock_client.stub!(:gather_recent_tweets_for).with(VALID_TWITTER_USER).and_return(tweets)
 
     @cut.client = @mock_client
 
