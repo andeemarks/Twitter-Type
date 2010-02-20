@@ -8,6 +8,8 @@ describe TypeInferrer do
 
   VALID_TWITTER_USER = "andee_marks"
 
+  Tweet = Struct.new(:text, :to_user)
+
   before(:each) do
     @cut = TypeInferrer.new
     @mock_client = mock()
@@ -20,6 +22,16 @@ describe TypeInferrer do
     @cut.profile.should == nil
     lambda {@cut.infer(VALID_TWITTER_USER)}.should raise_error(TwitterClientError)
     @cut.profile.should == nil
+  end
+
+  it "should use an unknown_unauthorised type for any protected screen name" do
+    @mock_client.stub!(:gather_recent_tweets_for).with(VALID_TWITTER_USER).and_raise(ProtectedUserAccessError.new(nil))
+    @cut.client = @mock_client
+
+    @cut.profile.should == nil
+    @cut.infer(VALID_TWITTER_USER)
+    @cut.profile.inferred_type.should == :unknown_protected_user
+
   end
 
   it "should infer a type for a Twitter User" do

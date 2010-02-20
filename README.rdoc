@@ -7,14 +7,28 @@ determine what type of tweeting the user predominantly does.  The types of usage
 [:+retweeter+] most tweets are forwarding on other people's tweets
 [:+originator+] most tweets are original content, not containing links, retweets or responses
 [:+undetermined+] no strong trends to base type on.
+[:+unknown_protected_user+] user has not granted public access to tweets
 
 = Usage
 
-inferrer = TwitterType::TypeInferrer.new(<user-name>)
-inferrer.classify
-print inferrer.profile
+Simply run the twitter_type.rb file passing the Twitter screen name of the person you wish to analyse.
+The analysis of this persons most tweets from the last 7 days will be displayed.
 
-= Known Problems
+For example:
+
+  ruby twitter_type.rb APlusK
+  APlusK: type :linker, #tweets 20, #replies 1, #retweets 5, #links 7
+
+To analyse multiple Twitter user's, simply pass each on the command line.  For example:
+
+  ruby twitter_type.rb APlusK BillGates EvaLongoria
+  APlusK: type :originator, #tweets 20, #replies 1, #retweets 5, #links 6
+  BillGates: type :linker, #tweets 19, #replies 1, #retweets 2, #links 11
+  EvaLongoria: type :linker, #tweets 19, #replies 3, #retweets 1, #links 11
+
+= Notes
+
+* The Twitter screen name parameter is case insensitive.
 
 = Copyright
 Copyright (c) 2010 Andy Marks, released under the MIT license

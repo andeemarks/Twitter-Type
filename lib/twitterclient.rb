@@ -9,7 +9,8 @@ module TwitterType
       
       begin
         Twitter::Client.new.timeline_for(:user, :id => screen_name)
-      rescue Twitter::TwitterError => error
+      rescue Twitter::RESTError => error
+        raise ProtectedUserAccessError.new(error.to_s) if !(error.code.index(ProtectedUserAccessError::CODE).nil?)
         raise TwitterClientError.new(error.to_s)
       end
     end
@@ -21,5 +22,9 @@ module TwitterType
     def initialize(message)
       @message = message
     end
+  end
+
+  class ProtectedUserAccessError < TwitterClientError
+    CODE = "401"
   end
 end
