@@ -1,4 +1,4 @@
-require "twitterclient"
+require "twitterclientwrapper"
 require "profilefactory"
 
 module TwitterType
@@ -8,7 +8,7 @@ module TwitterType
     attr_reader :profile
 
     def initialize()
-      @client = TwitterClient.new
+      @client = TwitterClientWrapper.new
     end
 
     def infer(user)
