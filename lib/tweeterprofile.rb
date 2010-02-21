@@ -61,13 +61,15 @@ module TwitterType
 
     private
     def set_type(highest_count)
+      return :unknown_silent if @tweet_count == 0
+      
       non_original_tweet_count = @retweet_count + @link_count + @reply_count
       original_tweets = @tweet_count - non_original_tweet_count
       return :originator if original_tweets > highest_count
 
-      return :undetermined if equal_highest?(highest_count, @retweet_count, @link_count)
-      return :undetermined if equal_highest?(highest_count, @retweet_count, @reply_count)
-      return :undetermined if equal_highest?(highest_count, @link_count, @reply_count)
+      return :unknown_inconclusive if equal_highest?(highest_count, @retweet_count, @link_count)
+      return :unknown_inconclusive if equal_highest?(highest_count, @retweet_count, @reply_count)
+      return :unknown_inconclusive if equal_highest?(highest_count, @link_count, @reply_count)
 
       return :retweeter if highest_count == @retweet_count
       return :linker if highest_count == @link_count

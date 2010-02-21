@@ -160,12 +160,12 @@ describe TwitterType::TweeterProfile, " inferring a type" do
 
   it "should infer no clear type from a profile with no clear trends" do
     setup_profile({:retweet_count => 1, :link_count => 1, :reply_count => 1, :tweet_count => 3})
-    @cut.infer_type.should == :undetermined
+    @cut.infer_type.should == :unknown_inconclusive
   end
 
   it "should infer no clear type from an empty profile" do
     setup_profile({:retweet_count => 0, :link_count => 0, :reply_count => 0, :tweet_count => 0})
-    @cut.infer_type.should == :undetermined
+    @cut.infer_type.should == :unknown_silent
   end
 
   def setup_profile(return_values)

@@ -1,12 +1,13 @@
 = Overview
-TwitterType is a basic utility application that will analyse the tweets generated for a specified Twitter user and
-determine what type of tweeting the user predominantly does.  The types of usage that can be identified are:
+TwitterType is a basic utility that analyses a Twitter user's tweets and
+determine what type of Tweeter the user is.  The set of types identified are:
 
 [:+chatter+] most tweets are in response to tweets by other Twitter users
 [:+linker+] most tweets include links to URLs
 [:+retweeter+] most tweets are forwarding on other people's tweets
 [:+originator+] most tweets are original content, not containing links, retweets or responses
-[:+undetermined+] no strong trends to base type on.
+[:+unknown_inconclusive+] no strong trends to base type on.
+[:+unknown_silent+] no tweets found in last 7 days
 [:+unknown_protected_user+] user has not granted public access to tweets
 
 = Usage
@@ -29,6 +30,7 @@ To analyse multiple Twitter user's, simply pass each on the command line.  For e
 = Notes
 
 * The Twitter screen name parameter is case insensitive.
+* Each tweet will only be classified as one of a link, retweet, reply or original tweet.  For example, a retweet containing a link is just a retweet and not both.
 
 = Copyright
 Copyright (c) 2010 Andy Marks, released under the MIT license
