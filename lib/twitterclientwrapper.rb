@@ -15,7 +15,7 @@ module TwitterType
       begin
         @client.gather_recent_tweets_for(screen_name)
       rescue Twitter::RESTError => error
-        raise ProtectedUserAccessError.new(error.to_s) if !(error.code.index(ProtectedUserAccessError::CODE).nil?)
+        raise ProtectedUserAccessError.new(error.to_s) if ProtectedUserAccessError.fits(error)
         raise TwitterClientError.new(error.to_s)
       end
     end
@@ -31,5 +31,9 @@ module TwitterType
 
   class ProtectedUserAccessError < TwitterClientError
     CODE = "401"
+
+    def self.fits(error)
+      return !error.code.index(CODE).nil?
+    end
   end
 end
