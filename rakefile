@@ -77,7 +77,7 @@ SPEC = Gem::Specification.new do |s|
   s.require_path = "lib"
   s.test_files = FileList["{test}/**/*_spec.rb"].to_a
   s.has_rdoc = true
-  s.extra_rdoc_files = ["README"]
+  s.extra_rdoc_files = ["README.rdoc"]
   s.add_dependency("twitter4r", ">= 0.3.2")
 end
 
