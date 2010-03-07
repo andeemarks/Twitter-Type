@@ -19,6 +19,9 @@ module TwitterType
       rescue TwitterType::ProtectedUserAccessError => error
         @profile = ProfileFactory.new(user).build([])
         @profile.inferred_type = :unknown_protected_user
+      rescue TwitterType::InvalidUserAccessError => error
+        @profile = ProfileFactory.new(user).build([])
+        @profile.inferred_type = :unknown_user
       end
 
       self

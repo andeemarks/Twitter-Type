@@ -34,6 +34,16 @@ describe TypeInferrer do
 
   end
 
+  it "should use an unknown_user type for any invalid screen name" do
+    @mock_client.stub!(:gather_recent_tweets_for).with(VALID_TWITTER_USER).and_raise(InvalidUserAccessError.new(nil))
+    @cut.client = @mock_client
+
+    @cut.profile.should == nil
+    @cut.infer(VALID_TWITTER_USER)
+    @cut.profile.inferred_type.should == :unknown_user
+
+  end
+
   it "should infer a type for a Twitter User" do
     tweets = Array.new(1) {|i| Tweet.new("test", "to user")}
     @mock_client.stub!(:gather_recent_tweets_for).with(VALID_TWITTER_USER).and_return(tweets)
