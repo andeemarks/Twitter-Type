@@ -67,7 +67,7 @@ end
 
 SPEC = Gem::Specification.new do |s|
   s.name = "twittertype"
-  s.version = "0.1.0"
+  s.version = "0.2.0"
   s.author = "Andy Marks"
   s.email = "andy@corvine.org"
   s.homepage = "http://github.com/andeemarks/Twitter-Type"

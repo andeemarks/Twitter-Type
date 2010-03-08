@@ -5,6 +5,7 @@ module TwitterType
                   :tweet_count,
                   :reply_count,
                   :retweet_count,
+                  :original_count,
                   :link_count,
                   :inferred_type
 
@@ -12,6 +13,7 @@ module TwitterType
       @tweet_count = 0
       @reply_count = 0
       @retweet_count = 0
+      @original_count = 0
       @link_count = 0
       @screen_name = screen_name
     end
@@ -20,16 +22,30 @@ module TwitterType
       begin
         @tweet_count = @tweet_count + 1
 
-        if tweet.text.slice(0, 1) == '@'
+        if reply?(tweet)
           @reply_count = @reply_count + 1
           return
         end
 
-        @retweet_count = @retweet_count + 1 if tweet.text.slice(0, 2) == 'RT'
-        @link_count = @link_count + 1 if tweet.text.index('http://') != nil
+        @retweet_count = @retweet_count + 1 if retweet?(tweet)
+        @link_count = @link_count + 1 if has_link?(tweet)
+        @original_count = @original_count + 1 if !retweet?(tweet) && !reply?(tweet)
+
       rescue NoMethodError => root
         raise ArgumentError.new("Missing method responses in tweet structure:" + root.to_s)
       end
+    end
+
+    def retweet?(tweet)
+      tweet.text.slice(0, 2) == 'RT'
+    end
+
+    def has_link?(tweet)
+      tweet.text.index('http://') != nil
+    end
+
+    def reply?(tweet)
+      tweet.text.slice(0, 1) == '@'
     end
 
     def to_s

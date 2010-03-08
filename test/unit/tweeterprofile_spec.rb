@@ -63,6 +63,23 @@ describe TwitterType::TweeterProfile, " being updated" do
 
   end
 
+  it "should increase the original count for each non retweet and non reply tweet sent to a user" do
+    @profile.original_count.should == 0
+
+    @profile.update_from(Tweet.new("@user text"))
+    @profile.original_count.should == 0
+
+    @profile.update_from(Tweet.new("RT text"))
+    @profile.original_count.should == 0
+
+    @profile.update_from(Tweet.new("original"))
+    @profile.original_count.should == 1
+
+    @profile.update_from(Tweet.new("text http://www.twitter.com", nil))
+    @profile.original_count.should == 2
+
+  end
+
   it "should increase the reply count for each tweet sent to a user" do
     @profile.reply_count.should == 0
 
