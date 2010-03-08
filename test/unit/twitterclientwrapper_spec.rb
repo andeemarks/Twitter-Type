@@ -1,5 +1,6 @@
 require "spec"
 require "twitterclientwrapper"
+require 'twitter'
 
 describe TwitterType::TwitterClientWrapper do
 
