@@ -1,4 +1,5 @@
 require "spec"
+require 'rubygems'
 require "twitterclientwrapper"
 require 'twitter'
 
