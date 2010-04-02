@@ -1,8 +1,11 @@
+require 'rubygems'
 require 'rake'
+
+$:.insert(0, File.dirname(__FILE__) + "/vendor/gems/twitter4r-0.3.2/lib")
+
 require 'rake/clean'
 require 'spec/rake/spectask'
 require 'metric_fu'
-require 'rubygems'
 #Gem::manage_gems
 require 'rake/gempackagetask'
 
@@ -62,6 +65,7 @@ desc "Run all examples with RSpec"
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = spec_file_list
   t.rcov = false
+  t.libs = [File.dirname(__FILE__) + "/vendor/gems/twitter4r-0.3.2/lib", "./lib"] 
   t.spec_opts = ['--format', 'nested']
 end
 
